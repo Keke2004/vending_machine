@@ -1,0 +1,3136 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      name="theme-color"
+      content="#f4f8fb"
+    />
+    <title>一口清爽 · 饮品售卖机独立演示版</title>
+<style>
+:root {
+  --paper: #f5f8fc;
+  --ink: #22334a;
+  --muted: #748397;
+  --blue: #2868d8;
+  --blue-dark: #1e54b9;
+  --pale-blue: #edf4ff;
+  --line: #e5ebf3;
+  --white: #fff;
+  --orange: #ef8d42;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei',
+    sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    transform 0.18s,
+    box-shadow 0.18s,
+    border-color 0.18s;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid #71a2ef;
+  outline-offset: 4px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+[hidden] {
+  display: none !important;
+}
+.icon-library {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.topbar {
+  height: 88px;
+  background: #ffffffed;
+  border-bottom: 1px solid var(--line);
+}
+.topbar-inner {
+  max-width: 1440px;
+  padding: 0 44px;
+  margin: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: 1px;
+}
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--blue);
+  color: white;
+  box-shadow: 0 4px 10px #2868d81a;
+  transform: rotate(-5deg);
+}
+.brand-icon .icon {
+  width: 29px;
+  height: 29px;
+  transform: rotate(5deg);
+}
+.topbar nav {
+  display: flex;
+  gap: 12px;
+  margin-left: auto;
+}
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #5e6e83;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.nav-button .icon {
+  width: 17px;
+  height: 17px;
+}
+.nav-button:hover {
+  color: var(--blue);
+  background: var(--pale-blue);
+}
+.page {
+  max-width: 1440px;
+  padding: 28px 44px 24px;
+  margin: auto;
+}
+.hero {
+  min-height: 218px;
+  background: #e8f1fe;
+  border: 1px solid #dde9fa;
+  border-radius: 20px;
+  margin-bottom: 34px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.hero-copy {
+  padding: 31px 38px;
+  position: relative;
+  z-index: 1;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6588b9;
+  margin: 0 0 12px;
+}
+.eyebrow > span {
+  width: 20px;
+  height: 1px;
+  background: #7099cb;
+}
+h1 {
+  font-size: 38px;
+  font-weight: 750;
+  line-height: 1.4;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #263f60;
+}
+h1 > span {
+  color: var(--blue);
+}
+.hero-description {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #6e87a7;
+  margin: 11px 0 20px;
+}
+.hero-tags {
+  display: flex;
+  gap: 24px;
+  color: #6482a8;
+  font-size: 11px;
+}
+.hero-tags > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-tags .icon {
+  width: 15px;
+  height: 15px;
+}
+.hero-visual {
+  width: 370px;
+  position: relative;
+  height: 218px;
+  flex-shrink: 0;
+}
+.hero-orbit {
+  position: absolute;
+  border: 1px solid #ffffffb3;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  left: 29px;
+  top: -16px;
+}
+.orbit-two {
+  width: 330px;
+  height: 330px;
+  top: -55px;
+  left: -10px;
+}
+.hero-visual:before {
+  content: '';
+  position: absolute;
+  height: 220px;
+  width: 220px;
+  top: 4px;
+  left: 45px;
+  border-radius: 50%;
+  background: #d4e4fb;
+}
+.hero-visual:after {
+  content: '';
+  position: absolute;
+  width: 145px;
+  height: 17px;
+  background: #3978c72b;
+  border-radius: 50%;
+  filter: blur(6px);
+  left: 87px;
+  bottom: 20px;
+}
+.hero-can {
+  position: absolute;
+  width: 88px;
+  height: 162px;
+  border-radius: 18px 18px 20px 20px;
+  top: 24px;
+  left: 106px;
+  transform: rotate(15deg);
+  background: linear-gradient(90deg, #a8c9ee 0%, #f9fbff 24%, #e2effc 62%, #a3c6ec 100%);
+  border-top: 5px solid #b1c6db;
+  border-bottom: 5px solid #a0bdd8;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  box-shadow:
+    10px 10px 20px #5883b621,
+    inset 2px 0 2px white;
+}
+.hero-can:before {
+  content: '';
+  position: absolute;
+  height: 7px;
+  left: 3px;
+  right: 3px;
+  border: 1px solid #8faac4;
+  border-radius: 50%;
+  top: -7px;
+  background: #dce7f1;
+}
+.hero-can-ring {
+  width: 17px;
+  height: 7px;
+  border: 2px solid #8aa3bb;
+  border-radius: 50%;
+  margin-top: -6px;
+  z-index: 1;
+}
+.hero-can-title {
+  color: #2b69aa;
+  font-family: 'Songti SC', 'STSong', serif;
+  font-size: 37px;
+  line-height: 1.15;
+  font-weight: bold;
+  margin-top: 13px;
+}
+.hero-can-line {
+  width: 40px;
+  height: 6px;
+  border-top: 2px solid #eaa555;
+  border-radius: 50%;
+  margin-top: 8px;
+}
+.hero-can-caption {
+  font-size: 7px;
+  color: #517ca8;
+  letter-spacing: 3px;
+  margin-top: 7px;
+}
+.hero-sticker {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  top: 114px;
+  left: 191px;
+  z-index: 2;
+  background: #fffffff2;
+  padding: 13px 16px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px #4775a50d;
+  transform: rotate(-6deg);
+  color: #4576b0;
+  font-size: 12px;
+  font-weight: 650;
+}
+.hero-sticker .icon {
+  width: 26px;
+  height: 26px;
+  color: #7c9cc1;
+}
+.hero-sticker span {
+  display: block;
+  color: #91a3b6;
+  font-size: 9px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+.hero-spark {
+  position: absolute;
+  color: #7ca1d2;
+  font-size: 25px;
+}
+.spark-one {
+  left: 50px;
+  top: 33px;
+}
+.spark-two {
+  left: 244px;
+  top: 36px;
+  font-size: 32px;
+  color: #e6b577;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 332px;
+  gap: 28px;
+  align-items: start;
+}
+.catalog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  margin-bottom: 19px;
+}
+.section-kicker {
+  font-size: 11px;
+  color: #8b99ab;
+  margin: 0 0 7px;
+  font-weight: 400;
+}
+.catalog-heading h2,
+.checkout-heading h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.4px;
+}
+.catalog-heading h2 > span {
+  font-size: 11px;
+  font-weight: 400;
+  background: #eaf0f8;
+  color: #8595a9;
+  border-radius: 5px;
+  padding: 4px 7px;
+  vertical-align: middle;
+  margin-left: 10px;
+  letter-spacing: 0;
+}
+.categories {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 19px;
+  flex-wrap: wrap;
+}
+.category {
+  border: 1px solid #e2e9f2;
+  background: white;
+  border-radius: 9px;
+  padding: 10px 18px;
+  font-size: 12px;
+  color: #7a8a9e;
+}
+.category:hover {
+  color: var(--blue);
+  border-color: #b5cced;
+}
+.category.active {
+  color: white;
+  background: var(--blue);
+  border-color: var(--blue);
+  box-shadow: 0 3px 8px #2868d818;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+.product-card {
+  border: 1px solid #e3eaf3;
+  border-radius: 13px;
+  padding: 0;
+  background: white;
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 3px 8px #243d6203;
+}
+.product-card:hover:not(:disabled) {
+  transform: translateY(-4px);
+  border-color: #a9c4ec;
+  box-shadow: 0 8px 20px #3866a015;
+}
+.product-card.selected {
+  border-color: var(--blue);
+  box-shadow:
+    0 0 0 1px var(--blue),
+    0 5px 16px #2868d811;
+}
+.product-art {
+  height: 166px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--drink) 8%, #fafcfe);
+}
+.product-art:before {
+  content: '';
+  position: absolute;
+  height: 113px;
+  width: 113px;
+  border-radius: 50%;
+  top: 25px;
+  left: calc(50% - 56px);
+  background: #ffffff65;
+  border: 1px solid #ffffff50;
+}
+.product-art:after {
+  content: '';
+  position: absolute;
+  width: 75px;
+  height: 10px;
+  border-radius: 50%;
+  left: calc(50% - 37px);
+  bottom: 16px;
+  background: #263e5624;
+  filter: blur(5px);
+}
+.slot-label {
+  position: absolute;
+  top: 11px;
+  left: 12px;
+  color: #8f9cac;
+  font-size: 10px;
+}
+.stock-badge {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  border: 1px solid #ffffffa6;
+  background: #ffffffb3;
+  padding: 4px 6px;
+  border-radius: 5px;
+  font-size: 10px;
+  color: #839082;
+  z-index: 2;
+}
+.stock-badge.low {
+  color: #b08343;
+  background: #fff6e5;
+  border-color: #f5e6cd;
+}
+.stock-badge.sold {
+  background: #e9ecf0;
+  border-color: #e9ecf0;
+  color: #939ba7;
+}
+.selected-mark {
+  position: absolute;
+  left: 10px;
+  bottom: 9px;
+  z-index: 2;
+  color: var(--blue);
+  background: #ffffffdf;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 9px;
+}
+.product-details {
+  display: block;
+  padding: 15px 14px 14px;
+}
+.product-name {
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+  margin-bottom: 6px;
+}
+.product-subtitle {
+  display: block;
+  font-size: 10px;
+  color: #94a0af;
+  white-space: nowrap;
+}
+.product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.price {
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 650;
+  color: #284d7c;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+.price small {
+  font-size: 12px;
+  margin-right: 3px;
+  font-weight: 500;
+}
+.choose-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: var(--pale-blue);
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  color: #6294dc;
+  font-weight: 300;
+}
+.product-card.selected .choose-icon {
+  background: var(--blue);
+  color: white;
+  font-size: 15px;
+}
+.product-card:disabled {
+  background: #fbfcfe;
+  color: #9da7b4;
+}
+.product-card:disabled .product-art {
+  background: #eef1f5;
+}
+.product-card:disabled .drink {
+  opacity: 0.4;
+  filter: grayscale(0.8);
+}
+.product-card:disabled .price {
+  color: #a3adba;
+}
+.product-card:disabled .choose-icon {
+  color: #9da8b5;
+  background: #eef1f6;
+  font-size: 10px;
+  width: 34px;
+}
+/* 纯 CSS 饮品包装，文字与规格均使用中文。 */
+.drink {
+  --drink: #a63629;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  width: 61px;
+  height: 108px;
+  background:
+    linear-gradient(90deg, #0002, transparent 20%, #ffffff30 47%, transparent 75%, #0002),
+    var(--drink);
+  color: #fff9e9;
+  box-shadow:
+    inset 2px 0 3px #ffffff40,
+    5px 5px 10px #0000000d;
+  flex-shrink: 0;
+  transform: rotate(-9deg);
+}
+.drink.can {
+  border-radius: 12px 12px 13px 13px;
+  border-top: 4px solid #c8ced1;
+  border-bottom: 3px solid #b9c0c4;
+}
+.drink.can:before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 3px;
+  right: 3px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e2e7e8;
+  border: 1px solid #a9b4ba;
+}
+.drink.can:after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 14px;
+  height: 5px;
+  border: 1px solid #9daab0;
+  border-radius: 50%;
+}
+.drink.bottle {
+  height: 107px;
+  width: 54px;
+  border-radius: 15px 15px 9px 9px;
+  margin-top: 17px;
+  transform: rotate(8deg);
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff50,
+      transparent 18%,
+      #ffffff30 50%,
+      transparent 70%,
+      #0001
+    ),
+    var(--drink);
+  border-bottom: 4px solid #ffffff40;
+}
+.drink.bottle:before {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 29px;
+  background: linear-gradient(90deg, #0001, #fff4, #0001), var(--drink);
+  top: -22px;
+  border-radius: 6px 6px 0 0;
+  z-index: -1;
+}
+.drink.bottle:after {
+  content: '';
+  position: absolute;
+  top: -27px;
+  width: 27px;
+  height: 12px;
+  background: repeating-linear-gradient(90deg, #eef1ed 0 2px, #ced4cf 2px 3px);
+  border-radius: 3px 3px 1px 1px;
+}
+.drink-label {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8px 0 7px;
+  border-top: 1px solid #ffffff65;
+  border-bottom: 1px solid #ffffff65;
+}
+.drink-symbol {
+  font-family: Georgia, serif;
+  font-size: 15px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.drink-name {
+  font-family: 'Songti SC', 'STSong', serif;
+  font-size: 14px;
+  font-weight: 750;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  max-width: 39px;
+}
+.drink-detail {
+  font-size: 5px;
+  letter-spacing: 2px;
+  display: block;
+  margin-top: 5px;
+  opacity: 0.8;
+}
+.drink-size {
+  font-size: 5px;
+  position: absolute;
+  bottom: 5px;
+  letter-spacing: 1px;
+}
+.bottle .drink-label {
+  background: #fbf8e7ee;
+  color: var(--drink);
+  padding: 7px 0;
+}
+.bottle .drink-name {
+  font-size: 12px;
+  max-width: 31px;
+}
+.bottle .drink-detail {
+  font-size: 4px;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+.bottle .drink-symbol {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+.bottle .drink-size {
+  bottom: 3px;
+}
+.checkout {
+  border: 1px solid #e0e8f3;
+  border-radius: 17px;
+  padding: 24px;
+  background: white;
+  box-shadow: 0 8px 24px #243a5905;
+  position: sticky;
+  top: 22px;
+  scroll-margin-top: 18px;
+}
+.checkout-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.checkout-heading h2 {
+  font-size: 21px;
+}
+.checkout-bag {
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #f0f5fd;
+  color: #729ad1;
+  height: 42px;
+  width: 42px;
+}
+.checkout-bag .icon {
+  width: 22px;
+  height: 22px;
+}
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 22px 0;
+  font-size: 10px;
+  color: #a1acb9;
+}
+.steps > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.steps b {
+  display: grid;
+  place-items: center;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: #f0f3f8;
+  color: #a8b3c1;
+  font-size: 10px;
+  font-weight: 500;
+}
+.steps i {
+  height: 1px;
+  background: #e5ebf3;
+  flex: 1;
+}
+.steps .current {
+  color: var(--blue);
+}
+.steps .current b {
+  background: var(--blue);
+  color: white;
+}
+.steps .complete {
+  color: #5d8aca;
+}
+.steps .complete b {
+  color: var(--blue);
+  background: #e7f0fd;
+}
+.selection {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 126px;
+  background: #f3f7fd;
+  border: 1px solid #e9eff8;
+  border-radius: 11px;
+  margin-bottom: 22px;
+  padding: 19px 20px;
+}
+.selection .drink {
+  transform: rotate(-7deg) scale(0.7);
+  margin: -15px -7px;
+}
+.selection .drink.bottle {
+  margin-top: 0;
+}
+.selected-copy {
+  min-width: 0;
+}
+.selected-copy h3 {
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.selected-copy p {
+  color: #8a9bb1;
+  font-size: 10px;
+  margin: 0 0 12px;
+}
+.selected-copy > span {
+  font-size: 18px;
+  font-weight: 650;
+  color: #42689b;
+}
+.selected-copy small {
+  font-size: 11px;
+  font-weight: 400;
+  color: #8b9bb1;
+  margin-left: 7px;
+}
+.empty-selection {
+  min-height: 139px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  border: 1px dashed #d5e1f2;
+  background: #f8faff;
+  padding: 18px 8px;
+}
+.selection-placeholder {
+  color: #93b1d8;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: #eaf1fc;
+}
+.selection-placeholder .icon {
+  height: 25px;
+  width: 25px;
+}
+.empty-selection p {
+  font-size: 12px;
+  color: #6984a8;
+  margin: 10px 0 6px;
+}
+.empty-selection > span {
+  font-size: 10px;
+  color: #9baabe;
+}
+.balance-block > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #7e8a9b;
+  font-size: 12px;
+}
+.balance-block > strong {
+  display: block;
+  font-size: 36px;
+  letter-spacing: -1px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+  margin: 8px 0 6px;
+}
+.balance-block > p {
+  font-size: 10px;
+  color: #9ba6b5;
+  margin: 0 0 13px;
+}
+.coins {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+.coins button {
+  padding: 9px 0;
+  background: #fffaf4;
+  border: 1px solid #f3dfc8;
+  border-radius: 9px;
+  color: #b68650;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.coins small {
+  display: block;
+  color: #c0a17d;
+  font-size: 9px;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.coins button > span {
+  font-size: 10px;
+  margin-left: 2px;
+  font-weight: 400;
+}
+.coins button:hover:not(:disabled) {
+  background: #fff1dd;
+  border-color: #e8c59a;
+  transform: translateY(-2px);
+}
+.coins button:disabled {
+  opacity: 0.5;
+}
+.total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px dashed #dfe7f3;
+  padding-top: 18px;
+  margin: 21px 0 16px;
+  font-size: 12px;
+  color: #7c8a9d;
+}
+.total small {
+  display: block;
+  margin-top: 5px;
+  color: #a2adbc;
+  font-size: 9px;
+}
+.total strong {
+  color: var(--blue);
+  font-size: 24px;
+  font-weight: 650;
+}
+.primary {
+  width: 100%;
+  border: 0;
+  background: var(--blue);
+  color: white;
+  border-radius: 10px;
+  padding: 14px 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.primary:hover:not(:disabled) {
+  background: var(--blue-dark);
+  box-shadow: 0 4px 10px #2868d826;
+}
+.primary:disabled {
+  color: #99b0ce;
+  background: #e6eef9;
+}
+.purchase {
+  min-height: 48px;
+}
+.purchase .icon {
+  width: 18px;
+  height: 18px;
+}
+.refund {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 15px 0;
+  color: #8495ad;
+  font-size: 11px;
+}
+.refund .icon {
+  width: 13px;
+  height: 13px;
+}
+.refund:hover:not(:disabled) {
+  color: var(--blue);
+}
+.refund:disabled {
+  opacity: 0.55;
+}
+.pickup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 36px;
+  border: 1px solid #e3eaf2;
+  border-radius: 7px;
+  background: #f7f9fc;
+  color: #9ba8b9;
+  font-size: 10px;
+  box-shadow: inset 0 3px 4px #1b3b5b04;
+}
+.pickup-light {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #bdc9d7;
+}
+.pickup.ready {
+  background: #f0f8f4;
+  color: #60977b;
+  border-color: #d5eade;
+}
+.pickup.ready .pickup-light {
+  background: #76b293;
+  box-shadow: 0 0 6px #76b29380;
+}
+.how-it-works {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 23px 25px;
+  margin-top: 30px;
+}
+.how-it-works > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+  border-right: 1px solid #edf0f5;
+  padding-right: 16px;
+}
+.how-it-works > div:last-child {
+  border-right: 0;
+}
+.instruction-icon {
+  color: #769bcf;
+  background: #f0f5fd;
+  width: 41px;
+  height: 41px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.instruction-icon .icon {
+  width: 23px;
+  height: 23px;
+}
+.how-it-works p {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 0;
+}
+.how-it-works strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: #607694;
+}
+.how-it-works p span {
+  color: #a0acba;
+  font-size: 10px;
+}
+.instruction-number {
+  font-size: 25px;
+  font-weight: 300;
+  color: #e5ecf6;
+  margin-left: auto;
+}
+.mobile-checkout {
+  display: none;
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  width: max-content;
+  background: #29486c;
+  color: white;
+  z-index: 20;
+  padding: 14px 21px;
+  font-size: 13px;
+  line-height: 1.7;
+  border-radius: 11px;
+  box-shadow: 0 8px 25px #183a5b26;
+}
+.toast.error {
+  background: #ac5a4a;
+}
+.modal {
+  padding: 30px;
+  border: 1px solid #dce5f1;
+  border-radius: 20px;
+  width: 620px;
+  max-width: calc(100% - 30px);
+  max-height: 85vh;
+  color: var(--ink);
+  box-shadow: 0 30px 80px #1e355038;
+}
+.modal::backdrop {
+  background: #243a536b;
+  backdrop-filter: blur(5px);
+}
+.modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.modal h2 {
+  font-size: 26px;
+  margin: 0;
+}
+.close-button {
+  display: grid;
+  place-items: center;
+  background: #f1f5fa;
+  color: #8b9bb0;
+  font-weight: 300;
+  border: 0;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 25px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.close-button:hover {
+  background: #e4edfa;
+  color: var(--blue);
+}
+.modal-description {
+  color: #929fb0;
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 0 0 18px;
+}
+.empty-state {
+  color: #8799b1;
+  text-align: center;
+  padding: 45px 10px;
+  font-size: 13px;
+  line-height: 1.9;
+  grid-column: 1 / -1;
+}
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+.order-row strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  margin-bottom: 7px;
+}
+.order-row small {
+  display: block;
+  color: #9aa9bd;
+  font-size: 10px;
+  line-height: 1.9;
+}
+.order-row > span {
+  text-align: right;
+  white-space: nowrap;
+  color: #4f6f99;
+}
+.order-status {
+  color: #76a18b !important;
+}
+.admin-modal {
+  width: 850px;
+}
+.login-form {
+  max-width: 360px;
+  margin: 30px auto;
+}
+.login-form > p:first-child {
+  font-size: 13px;
+  color: #8a9ab0;
+  line-height: 1.8;
+}
+.login-form label {
+  font-size: 13px;
+  display: block;
+  margin: 24px 0 10px;
+}
+.login-form input {
+  width: 100%;
+  border: 1px solid #dbe4f2;
+  background: #f8faff;
+  padding: 13px;
+  border-radius: 9px;
+  color: var(--ink);
+}
+.login-hint {
+  font-size: 11px;
+  color: #94a2b6;
+}
+.inline-error {
+  color: #b15d4c;
+  font-size: 12px;
+  min-height: 17px;
+}
+.admin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #8d9db2;
+  margin: 20px 0;
+}
+.text-button {
+  color: var(--blue);
+  font-size: 12px;
+  border: 0;
+  background: none;
+  padding: 8px;
+}
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.stat {
+  background: #f2f6fd;
+  padding: 18px;
+  border-radius: 10px;
+}
+.stat > span {
+  font-size: 11px;
+  color: #8b9db5;
+}
+.stat strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 12px;
+  color: #4a6e9d;
+}
+.admin-modal h3 {
+  font-size: 16px;
+  margin: 28px 0 12px;
+}
+.muted {
+  color: #8fa1b8;
+  font-size: 12px;
+  font-weight: 400;
+}
+.table-wrap {
+  overflow: auto;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 480px;
+  text-align: left;
+  font-size: 13px;
+}
+.admin-table th {
+  font-size: 11px;
+  color: #8b9bb1;
+  font-weight: 500;
+  background: #f5f8fd;
+  padding: 12px 10px;
+}
+.admin-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.admin-table input[type='number'] {
+  width: 80px;
+  border: 1px solid #dce5f2;
+  padding: 8px;
+  border-radius: 6px;
+  background: white;
+  color: var(--ink);
+  font-size: 12px;
+}
+.admin-table input[type='checkbox'] {
+  accent-color: var(--blue);
+  width: 17px;
+  height: 17px;
+}
+.save-product {
+  color: var(--blue);
+  font-size: 12px;
+  background: #edf4ff;
+  border: 1px solid #d8e7fc;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+.save-product:disabled {
+  opacity: 0.55;
+}
+.success-modal {
+  width: 440px;
+  padding: 40px 30px 30px;
+  text-align: center;
+}
+.success-close {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+}
+.success-icon {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  background: #edf4ff;
+  color: var(--blue);
+  margin: 5px auto 24px;
+  transform: rotate(-6deg);
+}
+.success-icon .icon {
+  width: 35px;
+  height: 35px;
+  transform: rotate(6deg);
+}
+.success-modal .section-kicker {
+  color: #7b9ac4;
+  margin-bottom: 12px;
+}
+.success-modal h2 {
+  font-size: 25px;
+}
+.success-modal > p:not(.section-kicker) {
+  font-size: 13px;
+  line-height: 1.8;
+}
+.receipt {
+  text-align: left;
+  background: #f5f8fd;
+  border: 1px solid #e9eff8;
+  border-radius: 10px;
+  padding: 19px;
+  margin: 24px 0;
+}
+.receipt p {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  margin: 0 0 14px;
+}
+.receipt p:last-child {
+  margin-bottom: 0;
+}
+.receipt span {
+  color: #94a1b5;
+}
+.receipt strong {
+  font-size: 11px;
+  font-weight: 500;
+  word-break: break-all;
+  color: #58749a;
+}
+.success-modal .primary {
+  justify-content: center;
+}
+
+@media (min-width: 1450px) {
+  .product-art {
+    height: 180px;
+  }
+  .product-details {
+    padding: 17px;
+  }
+  .product-subtitle {
+    font-size: 11px;
+  }
+  .product-bottom {
+    margin-top: 17px;
+  }
+}
+@media (max-width: 1190px) {
+  .topbar-inner {
+    padding: 0 32px;
+  }
+  .page {
+    padding: 25px 32px 24px;
+  }
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 23px;
+  }
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+  }
+  .hero-visual {
+    width: 300px;
+  }
+  .hero-copy {
+    padding: 30px;
+  }
+  h1 {
+    font-size: 32px;
+  }
+  .hero-description {
+    font-size: 12px;
+  }
+  .hero-tags {
+    gap: 18px;
+  }
+  .hero-sticker {
+    left: 168px;
+    padding: 12px;
+  }
+  .hero-can {
+    left: 87px;
+  }
+  .checkout {
+    padding: 22px;
+  }
+  .category {
+    padding: 10px 15px;
+  }
+  .instruction-number {
+    display: none;
+  }
+  .how-it-works {
+    padding: 21px;
+    gap: 18px;
+  }
+  .how-it-works p span {
+    font-size: 9px;
+  }
+}
+@media (max-width: 960px) {
+  .topbar-inner {
+    padding: 0 25px;
+    gap: 15px;
+  }
+  .page {
+    padding: 24px 25px 24px;
+  }
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+  }
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero-visual {
+    width: 245px;
+  }
+  .hero-copy {
+    padding: 28px;
+  }
+  h1 {
+    font-size: 29px;
+  }
+  .hero-description {
+    max-width: 280px;
+    margin-top: 9px;
+  }
+  .hero-tags {
+    gap: 13px;
+    font-size: 10px;
+  }
+  .hero-tags .icon {
+    height: 13px;
+    width: 13px;
+  }
+  .hero-sticker {
+    left: 140px;
+    padding: 12px 10px;
+    font-size: 11px;
+  }
+  .hero-sticker .icon {
+    width: 22px;
+    height: 22px;
+  }
+  .hero-sticker span {
+    font-size: 8px;
+  }
+  .hero-can {
+    left: 62px;
+  }
+  .hero-visual:before {
+    left: 0;
+  }
+  .hero-orbit {
+    left: -15px;
+  }
+  .orbit-two {
+    left: -53px;
+  }
+  .hero-visual:after {
+    left: 40px;
+  }
+  .spark-one {
+    left: 15px;
+  }
+  .spark-two {
+    left: 178px;
+  }
+  .catalog-heading h2 {
+    font-size: 20px;
+  }
+  .catalog-heading h2 > span {
+    margin-left: 7px;
+    font-size: 10px;
+  }
+  .category {
+    font-size: 11px;
+    padding: 9px 11px;
+  }
+  .how-it-works {
+    padding: 20px 15px;
+    gap: 15px;
+  }
+  .how-it-works > div {
+    gap: 9px;
+    padding-right: 8px;
+  }
+  .how-it-works strong {
+    font-size: 11px;
+  }
+  .how-it-works p span {
+    max-width: 120px;
+    line-height: 1.5;
+  }
+  .instruction-icon {
+    width: 32px;
+    height: 36px;
+    border-radius: 9px;
+  }
+  .instruction-icon .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media (max-width: 720px) {
+  .topbar {
+    height: 76px;
+  }
+  .topbar-inner {
+    padding: 0 20px;
+    gap: 10px;
+  }
+  .brand {
+    font-size: 20px;
+    gap: 10px;
+  }
+  .brand-icon {
+    width: 39px;
+    height: 39px;
+    border-radius: 12px;
+  }
+  .brand-icon .icon {
+    width: 26px;
+    height: 26px;
+  }
+  .topbar nav {
+    gap: 3px;
+  }
+  .nav-button {
+    padding: 10px 7px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  .nav-button .icon {
+    width: 16px;
+    height: 16px;
+  }
+  .page {
+    padding: 20px 20px 85px;
+  }
+  .hero {
+    min-height: 195px;
+    margin-bottom: 27px;
+    border-radius: 16px;
+  }
+  .hero-copy {
+    padding: 26px;
+  }
+  .hero-visual {
+    height: 195px;
+    width: 200px;
+  }
+  .hero-can {
+    left: 47px;
+    top: 16px;
+    transform: rotate(13deg) scale(0.9);
+  }
+  .hero-sticker {
+    left: 103px;
+    top: 113px;
+    padding: 10px;
+  }
+  .hero-sticker .icon {
+    display: none;
+  }
+  .hero-visual:before {
+    left: -10px;
+    top: -5px;
+  }
+  .hero-orbit {
+    top: -30px;
+    left: -26px;
+  }
+  .orbit-two {
+    top: -70px;
+    left: -66px;
+  }
+  .hero-visual:after {
+    left: 24px;
+    bottom: 15px;
+  }
+  .spark-one {
+    left: 10px;
+    font-size: 20px;
+  }
+  .spark-two {
+    left: 158px;
+    font-size: 25px;
+  }
+  .hero-tags {
+    gap: 15px;
+  }
+  .hero-tags > span:last-child {
+    display: none;
+  }
+  .workspace {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .product-art {
+    height: 157px;
+  }
+  .product-name {
+    font-size: 14px;
+  }
+  .product-details {
+    padding: 14px 12px;
+  }
+  .checkout {
+    position: relative;
+    top: auto;
+    padding: 25px;
+    border-radius: 15px;
+  }
+  .checkout-heading h2 {
+    font-size: 23px;
+  }
+  .steps {
+    font-size: 12px;
+    gap: 12px;
+  }
+  .steps b {
+    height: 22px;
+    width: 22px;
+    font-size: 11px;
+  }
+  .selection {
+    justify-content: center;
+    min-height: 133px;
+  }
+  .selection.empty-selection {
+    min-height: 142px;
+  }
+  .balance-block > strong {
+    font-size: 40px;
+  }
+  .coins button {
+    padding: 12px;
+    font-size: 23px;
+  }
+  .coins small {
+    font-size: 10px;
+  }
+  .primary {
+    padding: 16px 19px;
+    font-size: 14px;
+  }
+  .pickup {
+    height: 39px;
+  }
+  .how-it-works {
+    gap: 10px;
+    margin-top: 25px;
+    padding: 20px 12px;
+  }
+  .how-it-works > div {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    padding-right: 8px;
+  }
+  .how-it-works p {
+    align-items: center;
+    gap: 6px;
+  }
+  .how-it-works strong {
+    font-size: 10px;
+  }
+  .how-it-works p span {
+    font-size: 9px;
+    max-width: 105px;
+    line-height: 1.6;
+  }
+  .mobile-checkout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 5;
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    background: #234e88;
+    color: white;
+    border: 1px solid #ffffff22;
+    border-radius: 13px;
+    box-shadow: 0 5px 25px #1e426d36;
+    padding: 15px 18px;
+    gap: 10px;
+    text-align: left;
+  }
+  .mobile-checkout > span {
+    font-size: 12px;
+  }
+  .mobile-checkout strong {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .mobile-checkout .icon {
+    width: 16px;
+    height: 16px;
+  }
+  .toast {
+    bottom: 90px;
+    font-size: 12px;
+    padding: 12px 18px;
+  }
+}
+@media (max-width: 520px) {
+  .topbar-inner {
+    padding: 0 17px;
+    gap: 5px;
+  }
+  .brand {
+    font-size: 19px;
+    gap: 8px;
+  }
+  .brand-icon {
+    height: 36px;
+    width: 36px;
+    border-radius: 11px;
+  }
+  .nav-button {
+    font-size: 11px;
+    padding: 10px 6px;
+  }
+  .nav-button .icon {
+    display: none;
+  }
+  .page {
+    padding: 17px 17px 85px;
+  }
+  .hero {
+    min-height: 201px;
+    border-radius: 14px;
+  }
+  .hero-copy {
+    padding: 24px 20px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    margin-bottom: 10px;
+    gap: 6px;
+  }
+  .eyebrow > span {
+    width: 11px;
+  }
+  h1 {
+    font-size: 26px;
+    line-height: 1.45;
+    letter-spacing: 0.5px;
+  }
+  h1 > span {
+    display: block;
+  }
+  .hero-description {
+    max-width: 178px;
+    font-size: 10px;
+    line-height: 1.8;
+    margin: 9px 0 12px;
+  }
+  .hero-tags {
+    font-size: 9px;
+    gap: 10px;
+  }
+  .hero-tags > span {
+    gap: 4px;
+  }
+  .hero-tags .icon {
+    width: 12px;
+    height: 12px;
+  }
+  .hero-visual {
+    position: absolute;
+    right: -1px;
+    width: 140px;
+    height: 205px;
+    top: 3px;
+  }
+  .hero-visual:before {
+    height: 155px;
+    width: 155px;
+    left: 0;
+    top: 20px;
+  }
+  .hero-orbit {
+    width: 175px;
+    height: 175px;
+    left: -10px;
+    top: 10px;
+  }
+  .orbit-two {
+    width: 215px;
+    height: 215px;
+    left: -30px;
+    top: -10px;
+  }
+  .hero-can {
+    left: 25px;
+    top: 11px;
+    transform: rotate(12deg) scale(0.72);
+  }
+  .hero-sticker {
+    left: 5px;
+    top: 152px;
+    padding: 9px 13px;
+    font-size: 10px;
+    transform: rotate(-5deg);
+  }
+  .hero-sticker span {
+    font-size: 8px;
+  }
+  .hero-visual:after {
+    width: 96px;
+    left: 24px;
+    bottom: 38px;
+  }
+  .spark-one {
+    left: 4px;
+    top: 29px;
+    font-size: 18px;
+  }
+  .spark-two {
+    left: 114px;
+    top: 37px;
+    font-size: 22px;
+  }
+  .catalog-heading {
+    margin-bottom: 15px;
+  }
+  .catalog-heading h2 {
+    font-size: 21px;
+  }
+  .catalog-heading h2 > span {
+    font-size: 10px;
+    margin-left: 7px;
+  }
+  .section-kicker {
+    font-size: 10px;
+  }
+  .categories {
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .category {
+    font-size: 11px;
+    padding: 9px 10px;
+    border-radius: 8px;
+  }
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .product-art {
+    height: 160px;
+  }
+  .product-details {
+    padding: 15px 13px;
+  }
+  .product-name {
+    font-size: 15px;
+  }
+  .product-subtitle {
+    font-size: 10px;
+  }
+  .product-bottom {
+    margin-top: 15px;
+  }
+  .price {
+    font-size: 23px;
+  }
+  .choose-icon {
+    width: 29px;
+    height: 29px;
+  }
+  .checkout {
+    padding: 24px 22px;
+  }
+  .modal {
+    padding: 24px;
+    border-radius: 17px;
+  }
+  .modal h2 {
+    font-size: 23px;
+  }
+  .modal-description {
+    font-size: 11px;
+  }
+  .admin-stats {
+    gap: 7px;
+  }
+  .stat {
+    padding: 12px;
+  }
+  .stat > span {
+    font-size: 9px;
+  }
+  .stat strong {
+    font-size: 22px;
+  }
+  .order-row {
+    font-size: 12px;
+  }
+  .order-row strong {
+    font-size: 13px;
+  }
+  .order-row small {
+    font-size: 9px;
+  }
+  .receipt {
+    padding: 15px;
+  }
+  .success-modal {
+    padding-top: 35px;
+  }
+}
+@media (max-width: 360px) {
+  .hero-visual {
+    right: -18px;
+    opacity: 0.75;
+  }
+  .hero-copy {
+    padding-left: 16px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  .hero-description {
+    max-width: 160px;
+  }
+  .category {
+    padding: 8px 8px;
+    font-size: 10px;
+  }
+  .product-subtitle {
+    font-size: 9px;
+  }
+  .nav-button {
+    padding: 10px 4px;
+  }
+  .steps {
+    gap: 7px;
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *:before,
+  *:after {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.demo-note { margin: 0 0 18px; color: #748397; font-size: 12px; line-height: 1.7; }
+</style>
+  </head>
+  <body>
+    <svg
+      class="icon-library"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <symbol
+        id="icon-cup"
+        viewBox="0 0 24 24"
+      >
+        <path d="M7 8h12l-2 13H9L7 8ZM6 8h14M12 8l2-6h4M10 12h7" />
+      </symbol>
+      <symbol
+        id="icon-bag"
+        viewBox="0 0 24 24"
+      >
+        <path d="M5 7h14l1 14H4L5 7ZM8 8V6a4 4 0 0 1 8 0v2" />
+      </symbol>
+      <symbol
+        id="icon-settings"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="m9 3 1-1h4l1 3 3 1 3 3-1 3 1 3-3 3-3 1-1 3h-4l-1-3-3-1-3-3 1-3-1-3 3-3 3-1V3Z"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="3"
+        />
+      </symbol>
+      <symbol
+        id="icon-arrow"
+        viewBox="0 0 24 24"
+      >
+        <path d="M4 12h16m-6-6 6 6-6 6" />
+      </symbol>
+      <symbol
+        id="icon-snow"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2v20M3.34 7l17.32 10M3.34 17 20.66 7M9 4l3 3 3-3M9 20l3-3 3 3M4 10l4-1-1-4M17 19l-1-4 4-1M4 14l4 1-1 4M17 5l-1 4 4 1"
+        />
+      </symbol>
+      <symbol
+        id="icon-coin"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          cx="12"
+          cy="12"
+          r="9"
+        />
+        <path d="m8 7 4 5 4-5m-8 5h8m-8 3h8m-4-3v6" />
+      </symbol>
+      <symbol
+        id="icon-refund"
+        viewBox="0 0 24 24"
+      >
+        <path d="M4 5v6h6M5 10a8 8 0 1 1 0 7" />
+      </symbol>
+      <symbol
+        id="icon-check"
+        viewBox="0 0 24 24"
+      >
+        <path d="m5 12 4 4L19 6" />
+      </symbol>
+      <symbol
+        id="icon-box"
+        viewBox="0 0 24 24"
+      >
+        <path d="m3 7 9-5 9 5v10l-9 5-9-5V7Zm0 0 9 5 9-5M12 12v10M8 5l9 5" />
+      </symbol>
+    </svg>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a
+          class="brand"
+          href="#"
+          aria-label="饮品自动售卖机首页"
+          ><span class="brand-icon"
+            ><svg class="icon"><use href="#icon-cup" /></svg></span
+          ><span>饮品自动售卖机</span></a
+        >
+        <nav aria-label="主导航">
+          <button
+            id="orders-open"
+            class="nav-button"
+          >
+            <svg class="icon"><use href="#icon-bag" /></svg>我的订单</button
+          ><button
+            id="admin-open"
+            class="nav-button"
+          >
+            <svg class="icon"><use href="#icon-settings" /></svg>管理后台
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <p id="demo-note" class="demo-note">独立演示版 · 支付与出货均为模拟 · 数据仅保存在当前浏览器</p>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> 休息一下，补充好心情</p>
+          <h1>每一口，都是<span>小清爽。</span></h1>
+          <p class="hero-description">喜欢的饮品，就在手边。选一瓶，让今天轻松一点。</p>
+          <div class="hero-tags">
+            <span
+              ><svg class="icon"><use href="#icon-snow" /></svg>冰爽随时享</span
+            ><span
+              ><svg class="icon"><use href="#icon-coin" /></svg>投币即选购</span
+            ><span
+              ><svg class="icon"><use href="#icon-box" /></svg>一键出货</span
+            >
+          </div>
+        </div>
+        <div
+          class="hero-visual"
+          aria-hidden="true"
+        >
+          <span class="hero-orbit orbit-one"></span
+          ><span class="hero-orbit orbit-two"></span
+          ><span class="hero-spark spark-one">✦</span
+          ><span class="hero-spark spark-two">✧</span>
+          <div class="hero-can">
+            <span class="hero-can-ring"></span
+            ><span class="hero-can-title">清<br />爽</span
+            ><span class="hero-can-line"></span
+            ><span class="hero-can-caption">青柠气泡</span>
+          </div>
+          <div class="hero-sticker">
+            <svg class="icon"><use href="#icon-snow" /></svg>
+            <div>冰爽好滋味<span>快乐，即刻补给</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <section
+          class="shop"
+          aria-label="饮品选择"
+        >
+          <div class="catalog-heading">
+            <h2>选一瓶喜欢的 <span id="product-count">— 款饮品</span></h2>
+          </div>
+          <div
+            id="categories"
+            class="categories"
+            role="group"
+            aria-label="饮品分类"
+          >
+            <button
+              class="category active"
+              data-category="全部饮品"
+              aria-pressed="true"
+            >
+              全部饮品</button
+            ><button
+              class="category"
+              data-category="气泡饮料"
+              aria-pressed="false"
+            >
+              气泡饮料</button
+            ><button
+              class="category"
+              data-category="茶与咖啡"
+              aria-pressed="false"
+            >
+              茶与咖啡</button
+            ><button
+              class="category"
+              data-category="果汁"
+              aria-pressed="false"
+            >
+              果汁</button
+            ><button
+              class="category"
+              data-category="饮用水"
+              aria-pressed="false"
+            >
+              饮用水
+            </button>
+          </div>
+          <div
+            id="product-grid"
+            class="product-grid"
+            aria-live="polite"
+          >
+            <p class="empty-state">正在准备清爽饮品…</p>
+          </div>
+        </section>
+
+        <aside
+          id="checkout"
+          class="checkout"
+          aria-label="购买操作"
+        >
+          <div class="checkout-heading">
+            <h2>我的选购</h2>
+            <span class="checkout-bag"
+              ><svg class="icon"><use href="#icon-bag" /></svg
+            ></span>
+          </div>
+          <div
+            class="steps"
+            aria-label="购买步骤"
+          >
+            <span
+              class="current"
+              data-step="1"
+              ><b>1</b>选饮品</span
+            ><i></i><span data-step="2"><b>2</b>投金额</span><i></i
+            ><span data-step="3"><b>3</b>取饮品</span>
+          </div>
+          <div
+            id="selection"
+            class="selection empty-selection"
+          >
+            <div class="selection-placeholder">
+              <svg class="icon"><use href="#icon-cup" /></svg>
+            </div>
+            <p>先选一瓶心动饮品吧</p>
+            <span>点击饮品卡片，即可加入选购</span>
+          </div>
+          <div class="balance-block">
+            <div><span>可用余额</span></div>
+            <strong id="balance">¥ 0.00</strong>
+            <p>点击下方面额，投入金额</p>
+            <div class="coins">
+              <button data-amount="100"><small>投入</small>1<span>元</span></button
+              ><button data-amount="500"><small>投入</small>5<span>元</span></button
+              ><button data-amount="1000"><small>投入</small>10<span>元</span></button
+              ><button data-amount="2000"><small>投入</small>20<span>元</span></button>
+            </div>
+          </div>
+          <div class="total">
+            <span>本次应付 <small>共 1 件</small></span
+            ><strong id="total">¥ 0.00</strong>
+          </div>
+          <button
+            id="purchase"
+            class="primary purchase"
+            disabled
+          >
+            <span id="purchase-label">请先选择饮品</span
+            ><svg class="icon"><use href="#icon-arrow" /></svg>
+          </button>
+          <button
+            id="refund"
+            class="refund"
+            disabled
+          >
+            <svg class="icon"><use href="#icon-refund" /></svg>退回剩余金额
+          </button>
+          <div class="pickup">
+            <span class="pickup-light"></span
+            ><span id="pickup-text">取货口 · 等待选购</span>
+          </div>
+        </aside>
+      </div>
+
+      <section
+        class="how-it-works"
+        aria-label="使用说明"
+      >
+        <div>
+          <span class="instruction-icon"
+            ><svg class="icon"><use href="#icon-cup" /></svg
+          ></span>
+          <p><strong>选一瓶，合你心意</strong><span>多种饮品，总有你的喜欢</span></p>
+          <span class="instruction-number">01</span>
+        </div>
+        <div>
+          <span class="instruction-icon"
+            ><svg class="icon"><use href="#icon-coin" /></svg
+          ></span>
+          <p><strong>投一点，快乐加满</strong><span>支持多种面额，余额随时退回</span></p>
+          <span class="instruction-number">02</span>
+        </div>
+        <div>
+          <span class="instruction-icon"
+            ><svg class="icon"><use href="#icon-box" /></svg
+          ></span>
+          <p><strong>点一下，清爽到手</strong><span>确认购买，自动记录每笔订单</span></p>
+          <span class="instruction-number">03</span>
+        </div>
+      </section>
+    </main>
+
+    <button
+      id="mobile-checkout"
+      class="mobile-checkout"
+      hidden
+    >
+      <span>已选饮品</span
+      ><strong
+        >去结算 <svg class="icon"><use href="#icon-arrow" /></svg
+      ></strong>
+    </button>
+    <div
+      id="toast"
+      class="toast"
+      role="status"
+      aria-live="polite"
+      hidden
+    ></div>
+
+    <dialog
+      id="orders-dialog"
+      class="modal"
+    >
+      <div class="modal-heading">
+        <div>
+          <p class="section-kicker">每一份清爽，都有记录</p>
+          <h2>我的订单</h2>
+        </div>
+        <button
+          class="close-button"
+          data-close
+          aria-label="关闭订单"
+        >
+          ×
+        </button>
+      </div>
+      <p class="modal-description">
+        当前浏览器的最近 100 笔购买记录，支付与出货均为模拟。
+      </p>
+      <div id="orders-list"></div>
+    </dialog>
+
+    <dialog
+      id="admin-dialog"
+      class="modal admin-modal"
+    >
+      <div class="modal-heading">
+        <div>
+          <p class="section-kicker">让每一份清爽，准备就绪</p>
+          <h2>售卖机管理</h2>
+        </div>
+        <button
+          class="close-button"
+          data-close
+          aria-label="关闭管理后台"
+        >
+          ×
+        </button>
+      </div>
+      <form
+        id="login-form"
+        class="login-form"
+      >
+        <p>登录后可补货、调价、上下架饮品和查询销售记录。</p>
+        <label for="password">管理员密码</label
+        ><input
+          id="password"
+          type="password"
+          required
+          autocomplete="current-password"
+          placeholder="请输入管理员密码"
+        />
+        <p class="login-hint">管理员密码：12345</p>
+        <p
+          id="login-error"
+          class="inline-error"
+          role="alert"
+        ></p>
+        <button
+          class="primary"
+          type="submit"
+        >
+          进入管理后台 <svg class="icon"><use href="#icon-arrow" /></svg>
+        </button>
+      </form>
+      <section
+        id="admin-content"
+        hidden
+      >
+        <div class="admin-toolbar">
+          <span>设备 001 · 管理员</span
+          ><button
+            id="logout"
+            class="text-button"
+          >
+            退出登录
+          </button>
+        </div>
+        <div
+          id="admin-stats"
+          class="admin-stats"
+        ></div>
+        <h3>饮品与库存</h3>
+        <p class="modal-description">
+          修改库存、单价或上架状态后，点击对应行的“保存”。库存范围 0–999。
+        </p>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>饮品</th>
+                <th>单价（元）</th>
+                <th>库存</th>
+                <th>上架</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products"></tbody>
+          </table>
+        </div>
+        <h3>全部订单 <span class="muted">最近 100 笔</span></h3>
+        <div id="admin-orders"></div>
+      </section>
+    </dialog>
+
+    <dialog
+      id="success-dialog"
+      class="modal success-modal"
+    >
+      <button
+        class="close-button success-close"
+        data-close
+        aria-label="关闭购买结果"
+      >
+        ×
+      </button>
+      <div class="success-icon">
+        <svg class="icon"><use href="#icon-check" /></svg>
+      </div>
+      <p class="section-kicker">快乐补给成功</p>
+      <h2>你的清爽，已送达。</h2>
+      <p id="success-product"></p>
+      <p class="muted">模拟出货成功，快来开启下一份清爽。</p>
+      <div
+        id="success-details"
+        class="receipt"
+      ></div>
+      <button
+        class="primary"
+        data-close
+      >
+        继续选购 <svg class="icon"><use href="#icon-arrow" /></svg>
+      </button>
+    </dialog>
+  <script>
+const $ = (selector) => document.querySelector(selector);
+const money = (cents) => (cents / 100).toFixed(2);
+const escapeHTML = (value) =>
+  String(value).replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+  );
+const state = {
+  products: [],
+  category: '全部饮品',
+  selectedId: null,
+  balance: 0,
+  csrf: '',
+  isAdmin: false,
+  busy: true,
+  pending: null,
+  ready: false,
+};
+let toastTimer;
+let checkoutVisible = false;
+
+class APIError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+}
+
+function toast(message, error = false) {
+  clearTimeout(toastTimer);
+  $('#toast').textContent = message;
+  $('#toast').classList.toggle('error', error);
+  $('#toast').hidden = false;
+  toastTimer = setTimeout(
+    () => {
+      $('#toast').hidden = true;
+    },
+    error ? 6000 : 3500,
+  );
+}
+
+
+// 独立演示：所有数据都在当前浏览器中，不连接 Flask 或远程服务。
+const DEMO_STORAGE = 'sipgo.standalone.v1';
+const DEMO_PRODUCTS = [{"id": 1, "name": "经典可乐", "subtitle": "COLA · 330 mL", "category": "气泡饮料", "price_cents": 350, "stock": 12, "color": "#a63629", "label": "COLA", "shape": "can", "active": 1}, {"id": 2, "name": "青柠气泡水", "subtitle": "LIME SODA · 330 mL", "category": "气泡饮料", "price_cents": 450, "stock": 8, "color": "#65884b", "label": "LIME", "shape": "can", "active": 1}, {"id": 3, "name": "茉莉绿茶", "subtitle": "JASMINE TEA · 500 mL", "category": "茶与咖啡", "price_cents": 400, "stock": 15, "color": "#c6a866", "label": "茉莉", "shape": "bottle", "active": 1}, {"id": 4, "name": "鲜橙果汁", "subtitle": "ORANGE · 300 mL", "category": "果汁", "price_cents": 600, "stock": 6, "color": "#df8938", "label": "ORANGE", "shape": "bottle", "active": 1}, {"id": 5, "name": "矿泉水", "subtitle": "MINERAL WATER · 550 mL", "category": "饮用水", "price_cents": 200, "stock": 20, "color": "#90b6bd", "label": "WATER", "shape": "bottle", "active": 1}, {"id": 6, "name": "醇香拿铁", "subtitle": "LATTE · 250 mL", "category": "茶与咖啡", "price_cents": 800, "stock": 5, "color": "#a48169", "label": "LATTE", "shape": "can", "active": 1}, {"id": 7, "name": "白桃乌龙", "subtitle": "PEACH OOLONG · 500 mL", "category": "茶与咖啡", "price_cents": 500, "stock": 3, "color": "#c28c8c", "label": "白桃", "shape": "bottle", "active": 1}, {"id": 8, "name": "葡萄果汁", "subtitle": "GRAPE · 300 mL", "category": "果汁", "price_cents": 650, "stock": 0, "color": "#897591", "label": "GRAPE", "shape": "bottle", "active": 1}];
+const copy = (value) => JSON.parse(JSON.stringify(value));
+const newId = () => globalThis.crypto?.randomUUID?.() ||
+  `demo-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+let demoAdmin = false;
+let demoData = { products: copy(DEMO_PRODUCTS), balance: 0, orders: [], operations: {} };
+let demoStorageAvailable = true;
+function storageNotice() {
+  $('#demo-note').textContent = '独立演示版 · 支付与出货均为模拟 · 当前浏览器无法保存数据，关闭后将重置';
+}
+function readDemo() {
+  if (!demoStorageAvailable) return copy(demoData);
+  try {
+    const saved = JSON.parse(localStorage.getItem(DEMO_STORAGE));
+    if (saved && Array.isArray(saved.products) && Array.isArray(saved.orders) &&
+        Number.isInteger(saved.balance) && saved.operations && typeof saved.operations === 'object') {
+      demoData = saved;
+    }
+  } catch {
+    demoStorageAvailable = false;
+    storageNotice();
+  }
+  return copy(demoData);
+}
+function saveDemo(data) {
+  // 一次保存完整状态，余额、库存和订单一起更新。
+  try {
+    localStorage.setItem(DEMO_STORAGE, JSON.stringify(data));
+  } catch {
+    demoStorageAvailable = false;
+    storageNotice();
+  }
+  demoData = data;
+}
+function demoInteger(value, name, minimum, maximum) {
+  if (!Number.isInteger(value) || value < minimum || value > maximum)
+    throw new APIError(`${name}必须为 ${minimum}–${maximum} 之间的整数。`, 400);
+  return value;
+}
+async function api(path, { method = 'GET', data = {} } = {}) {
+  const db = readDemo();
+  if (path === '/api/session' && method === 'GET')
+    return { balance_cents: db.balance, csrf_token: 'local-demo', is_admin: demoAdmin };
+  if (path === '/api/products' && method === 'GET')
+    return { products: db.products.filter(p => p.active) };
+  if (path === '/api/orders' && method === 'GET')
+    return { orders: db.orders.slice(0, 100) };
+  if (path === '/api/admin/login' && method === 'POST') {
+    if (data.password !== '12345') throw new APIError('管理员密码不正确。', 401);
+    demoAdmin = true;
+    return { message: '登录成功' };
+  }
+  if (path === '/api/admin/logout' && method === 'POST') {
+    demoAdmin = false;
+    return { message: '已退出管理员' };
+  }
+  if (path.startsWith('/api/admin/')) {
+    if (!demoAdmin) throw new APIError('请先登录管理员。', 401);
+    if (path === '/api/admin/dashboard' && method === 'GET')
+      return { products: db.products, orders: db.orders.slice(0, 100), stats: {
+        order_count: db.orders.length,
+        revenue_cents: db.orders.reduce((total, order) => total + order.amount_cents, 0),
+      } };
+    if (/^\/api\/admin\/products\/\d+$/.test(path) && method === 'PATCH') {
+      const product = db.products.find(p => p.id === Number(path.split('/').pop()));
+      if (!product) throw new APIError('饮品不存在。', 404);
+      const stock = demoInteger(data.stock, '库存', 0, 999);
+      const price = demoInteger(data.price_cents, '价格（分）', 100, 99900);
+      const active = demoInteger(data.active, '上架状态', 0, 1);
+      Object.assign(product, { stock, price_cents: price, active });
+      saveDemo(db);
+      return { message: '饮品信息已保存' };
+    }
+  }
+  if (['/api/deposit', '/api/purchase', '/api/refund'].includes(path) && method === 'POST') {
+    if (typeof data.request_id !== 'string' || data.request_id.length < 8 || data.request_id.length > 100)
+      throw new APIError('缺少有效的请求编号。', 400);
+    const operationKey = `request:${data.request_id}`;
+    const payload = JSON.stringify(Object.fromEntries(Object.entries(data)
+      .filter(([key]) => key !== 'request_id').sort(([a], [b]) => a.localeCompare(b))));
+    const previous = db.operations[operationKey];
+    if (previous) {
+      if (previous.path !== path || previous.payload !== payload)
+        throw new APIError('请求编号已用于其他操作，请重新操作。', 409);
+      return { ...previous.result, balance_cents: db.balance, replayed: true };
+    }
+    let result;
+    if (path === '/api/deposit') {
+      if (![100, 500, 1000, 2000].includes(data.amount_cents))
+        throw new APIError('仅支持 1、5、10、20 元模拟投币。', 400);
+      if (db.balance + data.amount_cents > 100000)
+        throw new APIError('余额上限为 1000 元，请先购买或退币。', 400);
+      db.balance += data.amount_cents;
+      result = { message: '投币成功', deposited_cents: data.amount_cents };
+    } else if (path === '/api/refund') {
+      result = { message: '退币成功', refunded_cents: db.balance };
+      db.balance = 0;
+    } else {
+      const id = demoInteger(data.product_id, '商品编号', 1, 2147483647);
+      const product = db.products.find(p => p.id === id && p.active);
+      if (!product) throw new APIError('饮品不存在或已下架。', 404);
+      if (product.stock <= 0) throw new APIError('这款饮品已售罄，请选择其他饮品。', 409);
+      if (db.balance < product.price_cents) throw new APIError('余额不足，请先投币。', 409);
+      db.balance -= product.price_cents;
+      product.stock -= 1;
+      const order = { id: `VM${newId().replace(/-/g, '').slice(-16).toUpperCase()}`,
+        product_name: product.name, amount_cents: product.price_cents,
+        created_at: new Date().toISOString() };
+      db.orders.unshift(order);
+      result = { message: '购买成功，请取走饮品', order_id: order.id,
+        product_name: order.product_name, amount_cents: order.amount_cents };
+    }
+    result.balance_cents = db.balance;
+    db.operations[operationKey] = { path, payload, result };
+    saveDemo(db);
+    return copy(result);
+  }
+  throw new APIError('暂不支持此操作。', 404);
+}
+
+function productDescription(product) {
+  // 兼容已有数据库中的英文规格，显示时统一转换成中文。
+  const volume = product.subtitle.match(/(\d+)\s*m[lL]/i);
+  return `${product.category} · ${volume ? `${volume[1]} 毫升` : product.shape === 'can' ? '罐装' : '瓶装'}`;
+}
+
+function drinkArt(product) {
+  const name = product.name
+    .replace('经典', '')
+    .replace('醇香', '')
+    .replace('鲜橙果汁', '鲜橙')
+    .replace('青柠气泡水', '青柠')
+    .replace('葡萄果汁', '葡萄');
+  return /* HTML */ `<span
+    class="drink ${escapeHTML(product.shape)}"
+    style="--drink:${escapeHTML(product.color)}"
+    aria-hidden="true"
+    ><span class="drink-label"
+      ><span class="drink-symbol">${product.shape === 'can' ? '✦' : '◒'}</span
+      ><span class="drink-name">${escapeHTML(name)}</span
+      ><span class="drink-detail">一口清爽</span></span
+    ><span class="drink-size">冰爽好滋味</span></span
+  >`;
+}
+
+function renderProducts() {
+  const products = state.products.filter(
+    (p) => state.category === '全部饮品' || p.category === state.category,
+  );
+  $('#product-count').textContent = `${state.products.length} 款饮品`;
+  $('#product-grid').innerHTML = products.length
+    ? products
+        .map(
+          (p) =>
+            /* HTML */ ` <button
+              class="product-card ${p.id === state.selectedId ? 'selected' : ''}"
+              style="--drink:${escapeHTML(p.color)}"
+              data-product="${p.id}"
+              ${p.stock === 0 ? 'disabled' : ''}
+              aria-pressed="${p.id === state.selectedId}"
+              aria-label="${escapeHTML(p.name)}，${money(p.price_cents)} 元，${p.stock
+                ? `库存 ${p.stock}`
+                : '已售罄'}"
+            >
+              <span class="product-art"
+                ><span class="slot-label">${String(p.id).padStart(2, '0')} 号</span
+                ><span
+                  class="stock-badge ${p.stock === 0
+                    ? 'sold'
+                    : p.stock <= 3
+                      ? 'low'
+                      : ''}"
+                  >${p.stock === 0
+                    ? '暂时售罄'
+                    : p.stock <= 3
+                      ? `仅剩 ${p.stock} 瓶`
+                      : `余 ${p.stock} 瓶`}</span
+                >${drinkArt(p)}${p.id === state.selectedId
+                  ? '<span class="selected-mark">✓ 已选择</span>'
+                  : ''}</span
+              >
+              <span class="product-details"
+                ><span class="product-name">${escapeHTML(p.name)}</span
+                ><span class="product-subtitle">${escapeHTML(productDescription(p))}</span
+                ><span class="product-bottom"
+                  ><span class="price"><small>¥</small>${money(p.price_cents)}</span
+                  ><span class="choose-icon"
+                    >${!p.stock ? '售罄' : p.id === state.selectedId ? '✓' : '+'}</span
+                  ></span
+                ></span
+              >
+            </button>`,
+        )
+        .join('')
+    : '<p class="empty-state">这个分类暂时没有上架的饮品，看看其他分类吧。</p>';
+}
+
+function renderCheckout() {
+  const p = state.products.find((p) => p.id === state.selectedId);
+  const valid = p && p.stock > 0;
+  $('#balance').textContent = `¥ ${money(state.balance)}`;
+  $('#total').textContent = `¥ ${money(p ? p.price_cents : 0)}`;
+  $('#selection').classList.toggle('empty-selection', !p);
+  $('#selection').innerHTML = p
+    ? /* HTML */ `${drinkArt(p)}
+        <div class="selected-copy">
+          <h3>${escapeHTML(p.name)}</h3>
+          <p>${escapeHTML(productDescription(p))}</p>
+          <span>¥ ${money(p.price_cents)} <small>× 1</small></span>
+        </div>`
+    : /* HTML */ `<div class="selection-placeholder">
+          <svg class="icon"><use href="#icon-cup" /></svg>
+        </div>
+        <p>先选一瓶心动饮品吧</p>
+        <span>点击饮品卡片，即可加入选购</span>`;
+  $('.total small').textContent = p ? '共 1 件' : '共 0 件';
+  const step = !p ? 1 : state.balance < p.price_cents ? 2 : 3;
+  document.querySelectorAll('[data-step]').forEach((item) => {
+    const number = Number(item.dataset.step);
+    item.classList.toggle('current', number === step);
+    item.classList.toggle('complete', number < step);
+    if (number === step) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
+  });
+  $('#mobile-checkout').hidden = checkoutVisible || (!p && !state.pending);
+  $('#mobile-checkout > span').textContent = state.pending
+    ? '有一笔操作待确认'
+    : p
+      ? `${p.name} · ¥ ${money(p.price_cents)}`
+      : '';
+  let label = !p
+    ? '请先选择饮品'
+    : !valid
+      ? '这款饮品已售罄'
+      : state.balance < p.price_cents
+        ? `还需投入 ¥ ${money(p.price_cents - state.balance)}`
+        : '确认购买 · 模拟出货';
+  if (state.pending) label = '重试上一笔未确认操作';
+  if (state.busy) label = '正在处理，请稍候…';
+  $('#purchase-label').textContent = label;
+  $('#purchase').disabled =
+    !state.ready ||
+    state.busy ||
+    (!state.pending && (!valid || state.balance < p.price_cents));
+  $('#refund').disabled =
+    !state.ready || state.busy || !!state.pending || state.balance === 0;
+  document.querySelectorAll('[data-amount]').forEach((button) => {
+    button.disabled = !state.ready || state.busy || !!state.pending;
+  });
+}
+
+async function refresh() {
+  const [info, catalog] = await Promise.all([api('/api/session'), api('/api/products')]);
+  state.balance = info.balance_cents;
+  state.csrf = info.csrf_token;
+  state.isAdmin = info.is_admin;
+  state.products = catalog.products;
+  if (!state.products.some((p) => p.id === state.selectedId)) state.selectedId = null;
+  renderProducts();
+  renderCheckout();
+}
+
+function persistPending(pending) {
+  state.pending = pending;
+  // 隐私模式禁用存储时，本次页面会话仍可正常使用。
+  try {
+    if (pending) sessionStorage.setItem('sipgo.standalone.pending', JSON.stringify(pending));
+    else sessionStorage.removeItem('sipgo.standalone.pending');
+  } catch {
+    /* 不影响投币和购买 */
+  }
+}
+
+async function walletAction(path, data = {}) {
+  if (state.busy || !state.ready) return;
+  state.busy = true;
+  if (!state.pending)
+    persistPending({ path, data: { ...data, request_id: newId() } });
+  const operation = state.pending;
+  renderCheckout();
+  try {
+    const result = await api(operation.path, { method: 'POST', data: operation.data });
+    persistPending(null);
+    state.balance = result.balance_cents;
+    if (operation.path === '/api/purchase') {
+      $('#success-product').textContent = `${result.product_name} × 1`;
+      $('#success-details').innerHTML = /* HTML */ `<p>
+          <span>订单编号</span><strong>${escapeHTML(result.order_id)}</strong>
+        </p>
+        <p><span>本次支付</span><strong>¥ ${money(result.amount_cents)}</strong></p>
+        <p><span>剩余金额</span><strong>¥ ${money(result.balance_cents)}</strong></p>`;
+      $('#success-dialog').showModal();
+      $('.pickup').classList.add('ready');
+      $('#pickup-text').textContent = `${result.product_name} · 模拟出货成功`;
+      state.selectedId = null;
+    } else if (operation.path === '/api/refund') {
+      toast(`已退回 ¥ ${money(result.refunded_cents)}，欢迎下次再来。`);
+    } else {
+      toast(`已投入 ¥ ${money(result.deposited_cents)}`);
+    }
+  } catch (error) {
+    // 未确认的请求保留同一幂等键，重试不会再次扣款或投币。
+    const definitive =
+      error instanceof APIError && error.status >= 400 && error.status < 500;
+    if (definitive) persistPending(null);
+    toast(
+      definitive
+        ? error.message
+        : '请求结果暂未确认，请点击“重试上一笔未确认操作”，不会重复扣款。',
+      true,
+    );
+  } finally {
+    try {
+      await refresh();
+    } catch {
+      toast('暂时无法读取演示数据，请刷新页面。', true);
+    }
+    state.busy = false;
+    renderCheckout();
+  }
+}
+
+function renderOrders(orders, target) {
+  $(target).innerHTML = orders.length
+    ? orders
+        .map(
+          (order) =>
+            /* HTML */ `<div class="order-row">
+              <div>
+                <strong>${escapeHTML(order.product_name)} × 1</strong
+                ><small>${escapeHTML(order.id)}</small
+                ><small
+                  >${escapeHTML(
+                    new Date(order.created_at).toLocaleString('zh-CN', { hour12: false }),
+                  )}</small
+                >
+              </div>
+              <span
+                >¥ ${money(order.amount_cents)}<small class="order-status"
+                  >模拟出货完成</small
+                ></span
+              >
+            </div>`,
+        )
+        .join('')
+    : '<p class="empty-state">还没有订单，第一瓶清爽正在等你。</p>';
+}
+
+async function loadOrders() {
+  $('#orders-list').innerHTML = '<p class="empty-state">正在读取订单…</p>';
+  try {
+    renderOrders((await api('/api/orders')).orders, '#orders-list');
+  } catch (error) {
+    $('#orders-list').innerHTML = /* HTML */ `<p class="empty-state">
+      ${escapeHTML(error.message)} 请关闭后重试。
+    </p>`;
+  }
+}
+
+async function loadAdmin() {
+  $('#login-form').hidden = state.isAdmin;
+  $('#admin-content').hidden = !state.isAdmin;
+  if (!state.isAdmin) return;
+  const data = await api('/api/admin/dashboard');
+  $('#admin-stats').innerHTML = /* HTML */ `<div class="stat">
+      <span>累计模拟销售额</span><strong>¥ ${money(data.stats.revenue_cents)}</strong>
+    </div>
+    <div class="stat">
+      <span>累计订单</span><strong>${data.stats.order_count}</strong>
+    </div>
+    <div class="stat">
+      <span>当前总库存（在架）</span
+      ><strong
+        >${data.products
+          .filter((p) => p.active)
+          .reduce((sum, p) => sum + p.stock, 0)}</strong
+      >
+    </div>`;
+  $('#admin-products').innerHTML = data.products
+    .map(
+      (p) =>
+        /* HTML */ `<tr data-admin-product="${p.id}">
+          <td>${escapeHTML(p.name)}</td>
+          <td>
+            <input
+              type="number"
+              class="edit-price"
+              min="1"
+              max="999"
+              step="0.01"
+              value="${money(p.price_cents)}"
+              aria-label="${escapeHTML(p.name)}单价"
+            />
+          </td>
+          <td>
+            <input
+              type="number"
+              class="edit-stock"
+              min="0"
+              max="999"
+              step="1"
+              value="${p.stock}"
+              aria-label="${escapeHTML(p.name)}库存"
+            />
+          </td>
+          <td>
+            <input
+              type="checkbox"
+              class="edit-active"
+              ${p.active ? 'checked' : ''}
+              aria-label="${escapeHTML(p.name)}上架状态"
+            />
+          </td>
+          <td>
+            <button
+              class="save-product"
+              data-save="${p.id}"
+            >
+              保存
+            </button>
+          </td>
+        </tr>`,
+    )
+    .join('');
+  renderOrders(data.orders, '#admin-orders');
+}
+
+$('#categories').addEventListener('click', (event) => {
+  const button = event.target.closest('[data-category]');
+  if (!button) return;
+  state.category = button.dataset.category;
+  document.querySelectorAll('[data-category]').forEach((b) => {
+    b.classList.toggle('active', b === button);
+    b.setAttribute('aria-pressed', String(b === button));
+  });
+  renderProducts();
+});
+
+$('#product-grid').addEventListener('click', (event) => {
+  const card = event.target.closest('[data-product]');
+  if (!card || card.disabled) return;
+  const productId = Number(card.dataset.product);
+  state.selectedId = state.selectedId === productId ? null : productId;
+  renderProducts();
+  renderCheckout();
+});
+
+document.querySelectorAll('[data-amount]').forEach((button) => {
+  button.addEventListener('click', () =>
+    walletAction('/api/deposit', { amount_cents: Number(button.dataset.amount) }),
+  );
+});
+$('#purchase').addEventListener('click', () =>
+  walletAction('/api/purchase', { product_id: state.selectedId }),
+);
+$('#refund').addEventListener('click', () => walletAction('/api/refund'));
+$('#mobile-checkout').addEventListener('click', () => {
+  $('#checkout').scrollIntoView({
+    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'instant'
+      : 'smooth',
+    block: 'start',
+  });
+});
+$('#orders-open').addEventListener('click', () => {
+  $('#orders-dialog').showModal();
+  loadOrders();
+});
+$('#admin-open').addEventListener('click', async () => {
+  if (!state.ready) {
+    toast('请等待演示页面准备完成。', true);
+    return;
+  }
+  $('#admin-dialog').showModal();
+  try {
+    await loadAdmin();
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+document.querySelectorAll('[data-close]').forEach((button) => {
+  button.addEventListener('click', () => button.closest('dialog').close());
+});
+document.querySelectorAll('dialog').forEach((dialog) => {
+  dialog.addEventListener('click', (event) => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom
+    )
+      dialog.close();
+  });
+});
+
+$('#login-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const button = event.target.querySelector('button');
+  button.disabled = true;
+  $('#login-error').textContent = '';
+  try {
+    await api('/api/admin/login', {
+      method: 'POST',
+      data: { password: $('#password').value },
+    });
+    state.isAdmin = true;
+    $('#password').value = '';
+    await loadAdmin();
+  } catch (error) {
+    $('#login-error').textContent = error.message;
+    toast(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$('#logout').addEventListener('click', async () => {
+  try {
+    await api('/api/admin/logout', { method: 'POST', data: {} });
+    state.isAdmin = false;
+    await loadAdmin();
+  } catch (error) {
+    toast(error.message, true);
+  }
+});
+
+$('#admin-products').addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-save]');
+  if (!button) return;
+  const row = button.closest('tr');
+  const price = row.querySelector('.edit-price');
+  const stock = row.querySelector('.edit-stock');
+  if (!price.reportValidity() || !stock.reportValidity()) return;
+  if (!price.value || !stock.value) {
+    toast('请填写价格和库存。', true);
+    return;
+  }
+  button.disabled = true;
+  button.textContent = '保存中';
+  try {
+    await api(`/api/admin/products/${button.dataset.save}`, {
+      method: 'PATCH',
+      data: {
+        stock: Number(stock.value),
+        price_cents: Math.round(Number(price.value) * 100),
+        active: row.querySelector('.edit-active').checked ? 1 : 0,
+      },
+    });
+    toast('饮品信息已保存');
+    // 保留其他行尚未保存的编辑内容。
+    await refresh();
+    const dashboard = await api('/api/admin/dashboard');
+    $('#admin-stats .stat:last-child strong').textContent = dashboard.products
+      .filter((p) => p.active)
+      .reduce((sum, p) => sum + p.stock, 0);
+  } catch (error) {
+    toast(error.message, true);
+  } finally {
+    button.disabled = false;
+    button.textContent = '保存';
+  }
+});
+
+async function initialize() {
+  renderCheckout();
+  try {
+    // 读取当前浏览器中的演示数据。
+    const info = await api('/api/session');
+    state.csrf = info.csrf_token;
+    state.balance = info.balance_cents;
+    state.isAdmin = info.is_admin;
+    state.products = (await api('/api/products')).products;
+    try {
+      const pending = JSON.parse(sessionStorage.getItem('sipgo.standalone.pending'));
+      if (
+        pending &&
+        ['/api/deposit', '/api/purchase', '/api/refund'].includes(pending.path) &&
+        pending.data?.request_id
+      )
+        state.pending = pending;
+    } catch {
+      /* 过期或无效的暂存数据不影响初始化 */
+    }
+    state.ready = true;
+    if (state.pending)
+      toast('有一笔操作尚未确认，请点击重试，系统会避免重复处理。', true);
+    renderProducts();
+  } catch (error) {
+    $('#product-grid').innerHTML = /* HTML */ `<div class="empty-state">
+      暂时无法读取演示数据，请刷新页面或使用新版浏览器打开。
+    </div>`;
+    toast('演示页面初始化失败，请刷新页面。', true);
+  } finally {
+    state.busy = false;
+    renderCheckout();
+  }
+}
+
+// 结算区进入视野后收起浮动入口，避免遮住投币和退款按钮。
+new IntersectionObserver(
+  ([entry]) => {
+    checkoutVisible = entry.isIntersecting;
+    $('#mobile-checkout').hidden =
+      checkoutVisible || (state.selectedId === null && !state.pending);
+  },
+  { threshold: 0.15, rootMargin: '0px 0px -80px 0px' },
+).observe($('#checkout'));
+
+initialize();
+
+</script>
+  </body>
+</html>
