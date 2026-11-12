@@ -25,12 +25,15 @@ SEED_PRODUCTS = [
 
 
 class APIError(Exception):
+    """携带中文提示与 HTTP 状态码，由统一处理器转换为 JSON。"""
+
     def __init__(self, message, status=400):
         self.message = message
         self.status = status
 
 
 def get_db():
+    """在当前请求中复用连接，请求结束时由 close_db 释放。"""
     if 'db' not in g:
         from flask import current_app
         g.db = sqlite3.connect(current_app.config['DATABASE'], timeout=10)
@@ -40,12 +43,14 @@ def get_db():
 
 
 def integer(value, name, minimum, maximum):
+    """校验整数及取值范围；布尔值不能作为金额或库存提交。"""
     if type(value) is not int or not minimum <= value <= maximum:
         raise APIError(f'{name}必须为 {minimum}–{maximum} 之间的整数。')
     return value
 
 
 def body():
+    """只接受 JSON 对象，避免后续接口读取无效的数据结构。"""
     data = request.get_json(silent=True)
     if not isinstance(data, dict):
         raise APIError('请提交 JSON 对象。')
@@ -53,6 +58,7 @@ def body():
 
 
 def admin_required(function):
+    """为管理接口统一检查登录状态。"""
     @wraps(function)
     def wrapped(*args, **kwargs):
         if not session.get('is_admin'):
@@ -62,8 +68,12 @@ def admin_required(function):
 
 
 def balance(db):
-    return db.execute('SELECT balance_cents FROM wallets WHERE id = ?',
-                      (session['wallet_id'],)).fetchone()['balance_cents']
+    """读取当前浏览器会话对应的钱包余额，单位为分。"""
+    row = db.execute(
+        'SELECT balance_cents FROM wallets WHERE id = ?',
+        (session['wallet_id'],),
+    ).fetchone()
+    return row['balance_cents']
 
 
 def wallet_operation(kind, data, action):
@@ -71,12 +81,17 @@ def wallet_operation(kind, data, action):
     request_id = data.get('request_id')
     if not isinstance(request_id, str) or not 8 <= len(request_id) <= 100:
         raise APIError('缺少有效的请求编号。')
-    payload = json.dumps({k: v for k, v in data.items() if k != 'request_id'}, sort_keys=True)
+    payload = json.dumps(
+        {k: v for k, v in data.items() if k != 'request_id'},
+        sort_keys=True,
+    )
     db = get_db()
     with db:
         db.execute('BEGIN IMMEDIATE')
-        previous = db.execute('SELECT * FROM operations WHERE wallet_id = ? AND request_id = ?',
-                              (session['wallet_id'], request_id)).fetchone()
+        previous = db.execute(
+            'SELECT * FROM operations WHERE wallet_id = ? AND request_id = ?',
+            (session['wallet_id'], request_id),
+        ).fetchone()
         if previous:
             if previous['kind'] != kind or previous['payload'] != payload:
                 raise APIError('请求编号已用于其他操作，请重新操作。', 409)
@@ -92,6 +107,7 @@ def wallet_operation(kind, data, action):
 
 
 def create_app(test_config=None):
+    """创建应用并初始化数据库，测试时可传入独立配置。"""
     app = Flask(__name__)
     app.config.from_mapping(
         DATABASE=str(Path(app.instance_path) / 'vending.sqlite3'),
@@ -130,6 +146,7 @@ def create_app(test_config=None):
 
     @app.before_request
     def prepare_session():
+        """为 API 请求准备钱包，并校验修改数据时的 CSRF 令牌。"""
         if not request.path.startswith('/api/'):
             return
         if request.method in ('POST', 'PATCH', 'DELETE'):
@@ -171,13 +188,18 @@ def create_app(test_config=None):
 
     @app.get('/api/session')
     def session_info():
-        return jsonify(balance_cents=balance(get_db()), csrf_token=session['csrf_token'],
-                       is_admin=bool(session.get('is_admin')))
+        return jsonify(
+            balance_cents=balance(get_db()),
+            csrf_token=session['csrf_token'],
+            is_admin=bool(session.get('is_admin')),
+        )
 
     @app.get('/api/products')
     def products():
-        return jsonify(products=[dict(row) for row in get_db().execute(
-            'SELECT * FROM products WHERE active = 1 ORDER BY id')])
+        rows = get_db().execute(
+            'SELECT * FROM products WHERE active = 1 ORDER BY id',
+        )
+        return jsonify(products=[dict(row) for row in rows])
 
     @app.post('/api/deposit')
     def deposit():
@@ -229,9 +251,15 @@ def create_app(test_config=None):
 
     @app.get('/api/orders')
     def orders():
-        rows = get_db().execute('''SELECT id, product_name, amount_cents, created_at FROM orders
-                                  WHERE wallet_id = ? ORDER BY created_at DESC, rowid DESC LIMIT 100''',
-                                (session['wallet_id'],))
+        """只返回当前访客的订单，同一秒内的订单按插入顺序倒序。"""
+        rows = get_db().execute(
+            '''SELECT id, product_name, amount_cents, created_at
+               FROM orders
+               WHERE wallet_id = ?
+               ORDER BY created_at DESC, rowid DESC
+               LIMIT 100''',
+            (session['wallet_id'],),
+        )
         return jsonify(orders=[dict(row) for row in rows])
 
     @app.post('/api/admin/login')
@@ -252,22 +280,40 @@ def create_app(test_config=None):
     @admin_required
     def dashboard():
         db = get_db()
-        stats = dict(db.execute('SELECT COUNT(*) AS order_count, COALESCE(SUM(amount_cents), 0) AS revenue_cents FROM orders').fetchone())
-        rows = db.execute('SELECT id, product_name, amount_cents, created_at FROM orders ORDER BY created_at DESC, rowid DESC LIMIT 100')
-        return jsonify(stats=stats, products=[dict(row) for row in db.execute('SELECT * FROM products ORDER BY id')],
-                       orders=[dict(row) for row in rows])
+        stats = dict(db.execute(
+            '''SELECT COUNT(*) AS order_count,
+                      COALESCE(SUM(amount_cents), 0) AS revenue_cents
+               FROM orders''',
+        ).fetchone())
+        rows = db.execute(
+            '''SELECT id, product_name, amount_cents, created_at
+               FROM orders
+               ORDER BY created_at DESC, rowid DESC
+               LIMIT 100''',
+        )
+        product_rows = db.execute('SELECT * FROM products ORDER BY id')
+        return jsonify(
+            stats=stats,
+            products=[dict(row) for row in product_rows],
+            orders=[dict(row) for row in rows],
+        )
 
     @app.patch('/api/admin/products/<int:product_id>')
     @admin_required
     def update_product(product_id):
+        """在同一事务中保存库存、价格和上架状态。"""
         data = body()
         stock = integer(data.get('stock'), '库存', 0, 999)
         price = integer(data.get('price_cents'), '价格（分）', 100, 99900)
         active = integer(data.get('active'), '上架状态', 0, 1)
         db = get_db()
         with db:
-            result = db.execute('UPDATE products SET stock = ?, price_cents = ?, active = ? WHERE id = ?',
-                                (stock, price, active, product_id))
+            result = db.execute(
+                '''UPDATE products
+                   SET stock = ?, price_cents = ?, active = ?
+                   WHERE id = ?''',
+                (stock, price, active, product_id),
+            )
             if result.rowcount == 0:
                 raise APIError('饮品不存在。', 404)
         return jsonify(message='饮品信息已保存')

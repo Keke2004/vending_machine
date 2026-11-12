@@ -2025,7 +2025,6 @@ h1 > span {
   }
 }
 
-.demo-note { margin: 0 0 18px; color: #748397; font-size: 12px; line-height: 1.7; }
 </style>
   </head>
   <body>
@@ -2131,7 +2130,6 @@ h1 > span {
     </header>
 
     <main class="page">
-      <p id="demo-note" class="demo-note">独立演示版 · 支付与出货均为模拟 · 数据仅保存在当前浏览器</p>
       <section class="hero">
         <div class="hero-copy">
           <p class="eyebrow"><span></span> 休息一下，补充好心情</p>
@@ -2526,7 +2524,7 @@ let demoAdmin = false;
 let demoData = { products: copy(DEMO_PRODUCTS), balance: 0, orders: [], operations: {} };
 let demoStorageAvailable = true;
 function storageNotice() {
-  $('#demo-note').textContent = '独立演示版 · 支付与出货均为模拟 · 当前浏览器无法保存数据，关闭后将重置';
+  toast('当前浏览器无法保存数据，关闭后将重置。', true);
 }
 function readDemo() {
   if (!demoStorageAvailable) return copy(demoData);
